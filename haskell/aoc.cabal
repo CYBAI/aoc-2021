@@ -1,0 +1,38 @@
+cabal-version:      2.4
+name:               aoc
+version:            0.0.0.0
+build-type:         Simple
+
+-- A short (one-line) description of the package.
+-- synopsis:
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+-- license:
+author:             cybai
+maintainer:         cyb.ai.815@gmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+
+library
+    hs-source-dirs:  lib
+    exposed-modules: AdventOfCode, AdventOfCode.Class, AdventOfCode.Utils
+    ghc-options:     -Wall
+    build-depends:
+      base,
+      directory ^>=1.3.6.0
+    default-language: Haskell2010
+
+executable Day01
+    main-is:          Day01.hs
+    build-depends:    base, aoc
+    hs-source-dirs:   bin
+    ghc-options:      -Wall
+    default-language: Haskell2010
