@@ -31,9 +31,17 @@ instance Solutions Day02 where
       calc (x, y) Command {direction = Down, distance} = (x, y + distance)
       calc (x, y) Command {direction = Up, distance} = (x, y - distance)
 
-  part2 = undefined
+  part2 input = Day02 (horizontal * depth)
+    where
+      (horizontal, depth, _) = foldl calc (0, 0, 0) $ parse <$> lines input
+
+      calc :: (Integer, Integer, Integer) -> Command -> (Integer, Integer, Integer)
+      calc (x, y, aim) Command {direction = Down, distance} = (x, y, aim + distance)
+      calc (x, y, aim) Command {direction = Up, distance} = (x, y, aim - distance)
+      calc (x, y, aim) Command {direction = Forward, distance} = (x + distance, y + aim * distance, aim)
 
 main :: IO ()
 main = do
   input <- readInput 2
   putStrLn $ show (part1 @Day02 input)
+  putStrLn $ show (part2 @Day02 input)
