@@ -3,5 +3,4 @@ module AdventOfCode
   )
 where
 
-import AdventOfCode.Class as X
 import AdventOfCode.Utils as X
