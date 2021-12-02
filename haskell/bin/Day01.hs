@@ -12,7 +12,6 @@ part1 :: String -> Integer
 part1 input = go 0 (depths input)
   where
     go :: Integer -> [Integer] -> Integer
-    go count (x : y : []) = increment (x < y) $ count
     go count (x : xs@(y : _)) = go (increment (x < y) $ count) xs
     go count _ = count
 
