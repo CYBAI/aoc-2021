@@ -40,22 +40,20 @@ calculate = foldr (M.alter inc)
     inc Nothing = Just 1
     inc (Just x) = Just (x + 1)
 
+isHorizontalOrVertical :: (Point, Point) -> Bool
+isHorizontalOrVertical ((x1, y1), (x2, y2)) = x1 == x2 || y1 == y2
+
+toPoints :: (Point, Point) -> [Point]
+toPoints ((x1, y1), (x2, y2)) | x1 == x2 = map (x1,) $ range $ order y1 y2
+toPoints ((x1, y1), (x2, y2)) | y1 == y2 = map (,y1) $ range $ order x1 x2
+toPoints (p1, p2) | slope p1 p2 == 1 = findDiagonalPoints p1 p2
+toPoints _ = []
+
 part1 :: String -> Int
-part1 = M.size . M.filter (>= 2) . foldl' f M.empty . parseInput . lines
-  where
-    f :: M.Map Point Integer -> (Point, Point) -> M.Map Point Integer
-    f hm ((x1, y1), (x2, y2)) | x1 == x2 = calculate hm (map (x1,) $ range $ order y1 y2)
-    f hm ((x1, y1), (x2, y2)) | y1 == y2 = calculate hm (map (,y1) $ range $ order x1 x2)
-    f hm _ = hm
+part1 = M.size . M.filter (>= 2) . foldl' calculate M.empty . map toPoints . filter isHorizontalOrVertical . parseInput . lines
 
 part2 :: String -> Int
-part2 = M.size . M.filter (>= 2) . foldl' f M.empty . parseInput . lines
-  where
-    f :: M.Map Point Integer -> (Point, Point) -> M.Map Point Integer
-    f hm ((x1, y1), (x2, y2)) | x1 == x2 = calculate hm (map (x1,) $ range $ order y1 y2)
-    f hm ((x1, y1), (x2, y2)) | y1 == y2 = calculate hm (map (,y1) $ range $ order x1 x2)
-    f hm (p1, p2) | slope p1 p2 == 1 = calculate hm (findDiagonalPoints p1 p2)
-    f hm _ = hm
+part2 = M.size . M.filter (>= 2) . foldl' calculate M.empty . map toPoints . parseInput . lines
 
 main :: IO ()
 main = do
