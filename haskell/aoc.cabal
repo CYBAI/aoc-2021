@@ -50,3 +50,10 @@ executable Day03
     hs-source-dirs:   bin
     ghc-options:      -Wall
     default-language: Haskell2010
+
+executable Day04
+    main-is:          Day04.hs
+    build-depends:    base, aoc, containers, split
+    hs-source-dirs:   bin
+    ghc-options:      -Wall
+    default-language: Haskell2010
