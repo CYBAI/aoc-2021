@@ -1,5 +1,4 @@
 {-# LANGUAGE TupleSections #-}
-{-# LANGUAGE TypeApplications #-}
 
 import AdventOfCode.Utils
 import Data.List (foldl')
@@ -9,9 +8,6 @@ import qualified Data.Map.Strict as M
 type Coord = (Integer, Integer)
 
 type Board = M.Map Integer Coord
-
-strToInt :: String -> Integer
-strToInt = read @Integer
 
 fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x

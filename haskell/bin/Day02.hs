@@ -1,5 +1,4 @@
 {-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE TypeApplications #-}
 
 import AdventOfCode.Utils
 import Data.List (stripPrefix)
@@ -12,9 +11,9 @@ data Command = Command
   }
 
 parse :: String -> Command
-parse str | Just num <- "forward " `stripPrefix` str = Command {direction = Forward, distance = read @Integer num}
-parse str | Just num <- "down " `stripPrefix` str = Command {direction = Down, distance = read @Integer num}
-parse str | Just num <- "up " `stripPrefix` str = Command {direction = Up, distance = read @Integer num}
+parse str | Just num <- "forward " `stripPrefix` str = Command {direction = Forward, distance = strToInt num}
+parse str | Just num <- "down " `stripPrefix` str = Command {direction = Down, distance = strToInt num}
+parse str | Just num <- "up " `stripPrefix` str = Command {direction = Up, distance = strToInt num}
 parse _ = error "Unexpected commands"
 
 part1 :: String -> Integer

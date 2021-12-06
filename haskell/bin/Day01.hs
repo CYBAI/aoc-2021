@@ -1,7 +1,7 @@
 import AdventOfCode.Utils
 
 depths :: String -> [Integer]
-depths x = (\n -> read n :: Integer) <$> lines x
+depths x = strToInt <$> lines x
 
 increment :: Bool -> (Integer -> Integer)
 increment bool = if bool then (+ 1) else (+ 0)

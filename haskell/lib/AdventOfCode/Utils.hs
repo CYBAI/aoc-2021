@@ -1,5 +1,8 @@
+{-# LANGUAGE TypeApplications #-}
+
 module AdventOfCode.Utils
   ( readInput,
+    strToInt,
   )
 where
 
@@ -14,3 +17,6 @@ readInput day = do
     pad d
       | d < 10 = "0" ++ show d
       | otherwise = show d
+
+strToInt :: String -> Integer
+strToInt = read @Integer
