@@ -16,6 +16,10 @@ strToInt = read @Integer
 fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x
 
+parseInput :: [String] -> ([Integer], [Board])
+parseInput [] = error "Unexpected empty lines"
+parseInput (x : xs) = (strToInt <$> splitOn "," x, parseBoard . drop 1 <$> chunksOf 6 xs)
+
 parseBoard :: [String] -> Board
 parseBoard = fst . foldl' toBoard (M.empty, 0) . map words
   where
@@ -60,9 +64,7 @@ part1 input = go guesses (map (,M.empty,M.empty) boards)
           (Just ans, _, _) -> Right ans
           (Nothing, rows, cols) -> Left $ updated ++ [(fst3 board, rows, cols)]
 
-    (guesses, boards) = case lines input of
-      [] -> error "Unexpected empty lines"
-      (x : xs) -> (strToInt <$> splitOn "," x, parseBoard . drop 1 <$> chunksOf 6 xs)
+    (guesses, boards) = parseInput $ lines input
 
 part2 :: String -> Integer
 part2 input = go guesses (Nothing, map (,M.empty,M.empty) boards)
@@ -76,9 +78,7 @@ part2 input = go guesses (Nothing, map (,M.empty,M.empty) boards)
           (Just ans, _, _) -> (Just ans, updated)
           (Nothing, rows, cols) -> (mn', updated ++ [(fst3 board, rows, cols)])
 
-    (guesses, boards) = case lines input of
-      [] -> error "Unexpected empty lines"
-      (x : xs) -> (strToInt <$> splitOn "," x, parseBoard . drop 1 <$> chunksOf 6 xs)
+    (guesses, boards) = parseInput $ lines input
 
 main :: IO ()
 main = do
