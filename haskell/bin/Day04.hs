@@ -64,7 +64,24 @@ part1 input = go guesses (map (,M.empty,M.empty) boards)
       [] -> error "Unexpected empty lines"
       (x : xs) -> (strToInt <$> splitOn "," x, parseBoard . drop 1 <$> chunksOf 6 xs)
 
+part2 :: String -> Integer
+part2 input = go guesses (Nothing, map (,M.empty,M.empty) boards)
+  where
+    go :: [Integer] -> (Maybe Integer, [(Board, BingoCount, BingoCount)]) -> Integer
+    go [] (Nothing, _) = error "Didn't find an answer"
+    go [] (Just ans, _) = ans
+    go (x : next) (mn, bs) = go next $ foldl' f (mn, []) bs
+      where
+        f (mn', updated) board = case findBingo x board of
+          (Just ans, _, _) -> (Just ans, updated)
+          (Nothing, rows, cols) -> (mn', updated ++ [(fst3 board, rows, cols)])
+
+    (guesses, boards) = case lines input of
+      [] -> error "Unexpected empty lines"
+      (x : xs) -> (strToInt <$> splitOn "," x, parseBoard . drop 1 <$> chunksOf 6 xs)
+
 main :: IO ()
 main = do
   input <- readInput 4
   print (part1 input)
+  print (part2 input)
