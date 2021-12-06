@@ -1,5 +1,3 @@
-{-# LANGUAGE NamedFieldPuns #-}
-
 import AdventOfCode.Utils
 import Data.Vector (Vector)
 import qualified Data.Vector as V (cons, empty, foldl', fromList, head, length, map, null, replicate, tail, zip)
@@ -31,7 +29,7 @@ part1 input = gamma * epsilon
     transform consumption digit = V.map (uncurry increment) $ V.zip consumption (V.fromList digit)
 
 part2 :: String -> Integer
-part2 input = (binaryToDecimal generator) * (binaryToDecimal scrubber)
+part2 input = binaryToDecimal generator * binaryToDecimal scrubber
   where
     -- To find `oxygen generator rating`, determine the `most common` value (0 or 1)
     -- in the current bit position, and keep only numbers with that bit in that position.
@@ -77,5 +75,5 @@ part2 input = (binaryToDecimal generator) * (binaryToDecimal scrubber)
 main :: IO ()
 main = do
   input <- readInput 3
-  putStrLn $ show (part1 input)
-  putStrLn $ show (part2 input)
+  print (part1 input)
+  print (part2 input)

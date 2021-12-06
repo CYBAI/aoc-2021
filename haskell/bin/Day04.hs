@@ -33,8 +33,8 @@ findBingo :: Integer -> (Board, BingoCount, BingoCount) -> (Maybe Integer, Bingo
 findBingo guess (board, rows, cols) = case M.lookup guess board of
   Nothing -> (Nothing, rows, cols)
   Just (x, y) -> case (M.lookup x rows, M.lookup y cols) of
-    (Just (count, s), _) | count == 4 -> (Just $ calc guess, M.alter f x rows, cols)
-    (_, Just (count, s)) | count == 4 -> (Just $ calc guess, rows, M.alter f y cols)
+    (Just (count, _), _) | count == 4 -> (Just $ calc guess, M.alter f x rows, cols)
+    (_, Just (count, _)) | count == 4 -> (Just $ calc guess, rows, M.alter f y cols)
     (_, _) -> (Nothing, M.alter f x rows, M.alter f y cols)
     where
       calc :: Integer -> Integer
@@ -51,9 +51,9 @@ part1 input = go guesses (map (,M.empty,M.empty) boards)
   where
     go :: [Integer] -> [(Board, BingoCount, BingoCount)] -> Integer
     go [] _ = error "Didn't find an answer"
-    go (x : next) boards = case foldl' f (Left []) boards of
+    go (x : next) bs = case foldl' f (Left []) bs of
       Right n -> n
-      Left bs -> go next bs
+      Left bs' -> go next bs'
       where
         f (Right n) _ = Right n
         f (Left updated) board = case findBingo x board of
@@ -62,7 +62,7 @@ part1 input = go guesses (map (,M.empty,M.empty) boards)
 
     (guesses, boards) = case lines input of
       [] -> error "Unexpected empty lines"
-      (x : xs) -> (strToInt <$> splitOn "," x, (parseBoard . drop 1) <$> chunksOf 6 xs)
+      (x : xs) -> (strToInt <$> splitOn "," x, parseBoard . drop 1 <$> chunksOf 6 xs)
 
 main :: IO ()
 main = do

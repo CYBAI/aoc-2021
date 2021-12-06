@@ -8,8 +8,7 @@ import System.Directory (getCurrentDirectory)
 readInput :: Integer -> IO String
 readInput day = do
   currentDir <- getCurrentDirectory
-  input <- readFile $ currentDir ++ "/inputs/Day" ++ pad day
-  return input
+  readFile $ currentDir ++ "/inputs/Day" ++ pad day
   where
     pad :: Integer -> String
     pad d

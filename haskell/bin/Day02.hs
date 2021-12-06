@@ -18,7 +18,7 @@ parse str | Just num <- "up " `stripPrefix` str = Command {direction = Up, dista
 parse _ = error "Unexpected commands"
 
 part1 :: String -> Integer
-part1 input = (horizontal * depth)
+part1 input = horizontal * depth
   where
     (horizontal, depth) = foldl calc (0, 0) $ parse <$> lines input
 
@@ -28,7 +28,7 @@ part1 input = (horizontal * depth)
     calc (x, y) Command {direction = Up, distance} = (x, y - distance)
 
 part2 :: String -> Integer
-part2 input = (horizontal * depth)
+part2 input = horizontal * depth
   where
     (horizontal, depth, _) = foldl calc (0, 0, 0) $ parse <$> lines input
 
@@ -40,5 +40,5 @@ part2 input = (horizontal * depth)
 main :: IO ()
 main = do
   input <- readInput 2
-  putStrLn $ show (part1 input)
-  putStrLn $ show (part2 input)
+  print (part1 input)
+  print (part2 input)
